@@ -27,7 +27,11 @@ class CardsViewController: UIViewController, UIGestureRecognizerDelegate {
         } else if (sender.state == .changed) {
             
             let translation = sender.translation(in: view)
+            
             cardImageView.center = CGPoint(x: cardInitialCenter.x + translation.x, y: cardInitialCenter.y)
+            
+            let angle: CGFloat = 90 + cardImageView.center.x / cardInitialCenter.x * -70
+            cardImageView.transform = CGAffineTransform(rotationAngle: angle * CGFloat(M_PI) / 180)
             
         } else if (sender.state == .ended) {
             UIView.animate(
@@ -39,6 +43,9 @@ class CardsViewController: UIViewController, UIGestureRecognizerDelegate {
                     } else if (velocityX < 0) {
                         print("left")
                     }
+                    
+                    self.cardImageView.center = self.cardInitialCenter
+                    self.cardImageView.transform = CGAffineTransform(rotationAngle: 0)
                 },
                 completion: nil)
             
